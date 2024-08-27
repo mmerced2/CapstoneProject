@@ -12,28 +12,29 @@ if (isLoading) {
   if (error) {
     return <Typography>Error: {error.message}</Typography>;
   }
-
-    return(
-        <section>
-        {data && (
-          <table>
-            <thead>
-              <tr>
-                <th colSpan="3">Current Users</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Username</td>
-                <td>Email</td>
-              </tr>
-              {data &&
-                data.users.map((user) => <UserRow key={user.id} user={user} />)}
-            </tbody>
-          </table>
-        )}
-      </section>
-    )
+  if(data?.user){
+    const {username,email, first_name, last_name }=data.user
+    return (
+        <section className="padding account">
+          <h2>Profile Info:
+          </h2>
+          <div>
+            <p>
+              {/* using spans so we can capitalize with CSS */}
+              Name: <span>{`${first_name}`}</span>
+              <span>{` ${last_name}`}</span>
+            </p>
+            <p>Username: {username}</p>
+            <p>Email: {email}</p>
+          </div>
+        </section>
+      );
+    }
+  
+  return (
+    <section>
+      <h3>Not found!</h3>
+    </section>
+  );
 }
 
-;

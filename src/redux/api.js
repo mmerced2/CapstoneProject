@@ -22,7 +22,7 @@ export const products_api = createApi({
             }),
         }),
         getUser: builder.query({
-            query: (body) => ({
+            query: (token) => ({
                 url: "/users", 
                 headers: {
                     authorization: `Bearer ${token}`
