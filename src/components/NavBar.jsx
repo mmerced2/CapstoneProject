@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
+import {AppBar} from "@mui/material";
 import {Box} from "@mui/material";
 import { Toolbar } from '@mui/material';
 import { Typography } from '@mui/material';

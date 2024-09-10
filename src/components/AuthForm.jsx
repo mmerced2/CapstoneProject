@@ -5,40 +5,23 @@ import React from 'react';
 import { Avatar } from '@mui/material';
 import { Button } from '@mui/material';
 import { CssBaseline } from '@mui/material';
-import { TextField } from '@material-ui/core';
+import {TextField} from '@mui/material';
 
 import { Link } from '@mui/material';
 import { Grid } from "@mui/material";
 import { Typography } from '@mui/material';
-import { makeStyles } from '@material-ui/core/styles';
+
+//import { makeStyles } from '@material-ui/core/styles';
+
 import { Container } from '@mui/material';
 
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
 
 
 
 function AuthForm({setToken}) {
 
-  const classes = useStyles();
+
+
 
   const initialForm = {
     username: "",
@@ -96,14 +79,14 @@ function AuthForm({setToken}) {
     <Container component="main" maxWidth="xs">
     <CssBaseline />
 
-    <div className={classes.paper}>
-      <Avatar className={classes.avatar}>
+    <div >
+      <Avatar >
       </Avatar>
       
       <Typography component="h1" variant="h5">
       {isRegister ? "Sign up" : "Login"}
       </Typography>
-      <form onSubmit={handleSubmit} className={classes.form} noValidate>
+      <form onSubmit={handleSubmit} noValidate>
 
         <Grid container spacing={2}>
         {isRegister && ( 
@@ -179,7 +162,6 @@ function AuthForm({setToken}) {
           fullWidth
           variant="contained"
           color="primary"
-          className={classes.submit}
         >
            {isRegister ? "Sign Up" :"Login"}
         </Button>
@@ -197,8 +179,8 @@ function AuthForm({setToken}) {
   </Container>
   </section>
     
-
   );
-}
+
+};
 
 export default AuthForm;
