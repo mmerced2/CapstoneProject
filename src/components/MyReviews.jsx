@@ -13,8 +13,8 @@ import {
   CardMedia,
   Grid,
 } from "@mui/material";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { Button } from '@mui/material';
+import { Typography } from '@mui/material';
 import ReviewForm from "./ReviewForm";
 import { useNavigate } from "react-router-dom";
 

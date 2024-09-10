@@ -1,17 +1,15 @@
 import { useState } from "react";
-//import { useRegisterMutation, useLoginMutation } from "../redux/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRegisterMutation,useLoginMutation} from "../redux/api";
 import React from 'react';
 import { Avatar } from '@mui/material';
-import Button from '@material-ui/core/Button';
+import { Button } from '@mui/material';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-//import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
