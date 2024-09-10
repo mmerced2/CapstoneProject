@@ -14,14 +14,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import React from "react";
 
-///not finished
 
-function ProductDetail({ token }) {
+
+function ProductDetail() {
   const params = useParams();
   const id = params.id;
-  console.log("product id from params:", id);
   const navigate = useNavigate();
   const { data, isLoading, error } = useGetProductsbyIdQuery(id);
+  
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -51,11 +51,7 @@ function ProductDetail({ token }) {
             </CardContent>
             <CardActions>
               <Button onClick={() => navigate("/products/")}> Back </Button>
-              <Button onClick={() => navigate("/products/")}>
-                {" "}
-                Add to Cart{" "}
-              </Button>
-              <Button onClick={() => navigate("/products/")}>
+              <Button onClick={() => navigate(`/products/${data.product.id}/reviewform`)}>
                 {" "}
                 Leave A Review{" "}
               </Button>
@@ -65,17 +61,6 @@ function ProductDetail({ token }) {
       </Grid>
     </Box>
 
-    //   <div>
-    //     <a onClick={() =>setproductSelected(null)}>Back</a>
-    //     <div>
-    //         <h2>{name}</h2>
-    //         <img src={img_url}/>
-    //         <p>Product Type: {product_type}</p>
-    //         <p>Description: {description}</p>
-    //         <button>Add To Cart</button>
-    //         <button>Leave a Review</button>
-    //     </div>
-    //   </div>
   );
 }
 

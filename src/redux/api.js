@@ -5,7 +5,7 @@ export const products_api = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "https://e-commerce-site-9at1.onrender.com/api",
     }),
-    tagTypes: ["user", "products"], 
+    tagTypes: ["user", "products","reviews"], 
     endpoints: (builder) => ({
         register: builder.mutation({
             query: (body) => ({
@@ -13,6 +13,7 @@ export const products_api = createApi({
                 method: "POST", 
                 body,
             }),
+            providesTags: ["user"]
         }),
         login: builder.mutation({
             query: (body) => ({
@@ -20,6 +21,7 @@ export const products_api = createApi({
                 method: "POST", 
                 body,
             }),
+            providesTags: ["user"]
         }),
         getUser: builder.query({
             query: (token) => ({
@@ -33,18 +35,21 @@ export const products_api = createApi({
         getProducts: builder.query({
             query: (body) => ({
                 url: "/products", 
-                // headers: {
-                //     authorization: `Bearer ${token}`
-                // },
             }),
             providesTags: ["products"],
+        }), 
+        getReviewsbyUserId: builder.query({
+            query: ({token}) => ({
+                url: "/reviews/user/", 
+                headers: {
+                    authorization: `Bearer ${token}`
+                },
+            }),
+            providesTags: ["reviews"],
         }), 
         getProductsbyId: builder.query({
             query: (product_id) => ({
                 url: `/products/${product_id}`, 
-                // headers: {
-                //     authorization: `Bearer ${token}`
-                // },
             }),
             providesTags: ["products"],
         }), 
@@ -59,6 +64,50 @@ export const products_api = createApi({
             }),
             invalidatesTags: ["products"],
         }),
+        getReviews: builder.query({
+            query: (body) => ({
+                url: "/reviews", 
+            }),
+            providesTags: ["reviews"],
+        }), 
+        getReviewsbyId: builder.query({
+            query: (review_id) => ({
+                url: `/reviews/${review_id}`, 
+            }),
+            providesTags: ["reviews"],
+        }), 
+        createReviews: builder.mutation({
+            query: ({id,token, body}) => ({
+                url: `/reviews/${id}`, 
+                method: "POST", 
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+                body,
+            }),
+            invalidatesTags: ["reviews"],
+        }),
+        editReview: builder.mutation({
+            query: ({id,token, body}) => ({
+                url: `/reviews/${id}`, 
+                method: "PUT", 
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+                body,
+            }),
+            invalidatesTags: ["reviews"],
+        }),
+        deleteReview: builder.mutation({
+            query: ({id,token}) => ({
+                url: `/reviews/${id}`, 
+                method: "DELETE", 
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            }),
+            invalidatesTags: ["reviews"],
+        }),        
     }),
 });
 
@@ -68,5 +117,11 @@ export const {
     useGetProductsQuery, 
     useCreateProductsMutation,
     useGetProductsbyIdQuery,
-    useGetUserQuery
+    useGetUserQuery, 
+    useGetReviewsQuery, 
+    useGetReviewsbyUserIdQuery,
+    useGetReviewsbyIdQuery,
+    useCreateReviewsMutation,
+    useEditReviewMutation,
+    useDeleteReviewMutation
 }= products_api;

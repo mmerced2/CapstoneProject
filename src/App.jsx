@@ -6,6 +6,10 @@ import ProductList from "./components/ProductList";
 import AuthForm from "./components/AuthForm";
 import ProductDetail from "./components/ProductDetail";
 import Account from "./components/Account";
+import ReviewForm from "./components/ReviewForm";
+import MyReviews from "./components/MyReviews"
+//import AuthForm from "./components/auth";
+ 
 import "./App.css";
 
 
@@ -24,6 +28,8 @@ function App() {
         <Route path="/products" element={<ProductList token={token}/>}  />
         <Route path="/products/:id" element={<ProductDetail token={token}/>}  />
         <Route path="/account" element={<Account token={token}/>}  />
+        <Route path="/products/:id/reviewform" element={<ReviewForm token={token}/>}  />
+        <Route path="/myreviews" element={<MyReviews token={token}/>}  /> 
       </Routes>
     </div>
   );

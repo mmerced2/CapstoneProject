@@ -2,27 +2,48 @@ import { useState } from "react";
 //import { useRegisterMutation, useLoginMutation } from "../redux/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRegisterMutation,useLoginMutation} from "../redux/api";
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+//import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
 
-// const defaultTheme = createTheme();
 
 function AuthForm({setToken}) {
+
+  const classes = useStyles();
+
   const initialForm = {
     username: "",
     password: "",
@@ -39,14 +60,8 @@ function AuthForm({setToken}) {
   const navigate = useNavigate();
   const location = useLocation();
   const isRegister = location.pathname === "/register";
+  const isLogin = location.pathname === "/login";
 
-  const handleChange = ({ target }) => {
-    console.log(target);
-    console.log(target.name);
-    console.log(target.value);
-    setError(null);
-    updateForm({ ...form, [target.name]: target.value });
-  };
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -58,7 +73,7 @@ function AuthForm({setToken}) {
 
     const { data, error } = isRegister
       ? await register(form)
-      : await login(form);
+      : await login({username: form.username, password: form.password});
 
     if (error) {
       setError(error.data.message);
@@ -69,67 +84,124 @@ function AuthForm({setToken}) {
     navigate("/account");
   };
 
+  const handleChange = ({ target }) => {
+    setError(null);
+    updateForm({ ...form, [target.name]: target.value });
+  };
+
+
   const { username, password, first_name, last_name, email } = form;
 
   return (
-    
 
-    
-    <div>
-      <h2>{isRegister ? "Register For" : "Login To"} Life's a Party</h2>
-      {error && <p>{error}</p>}
-      <form>
-        <label>
-          Username
-          <input name="username" value={username} onChange={handleChange} />
-        </label>
-        <label>
-          Password
-          <input
-            type={!showPassword ? "password" : "text"}
-            name="password"
-            value={password}
-            onChange={handleChange}
-          />
-        </label>
+    <section className="padding">
 
 
-        {isRegister ? (
-          <div>
-            <label>
-              First Name
-              <input
-                name="first_name"
-                value={first_name}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Last Name
-              <input
-                name="last_name"
-                value={last_name}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Email
-              <input name="email" value={email} onChange={handleChange} />
-            </label>
-          </div>
-        ) : 
-        
-        (
-          <span />
+    <Container component="main" maxWidth="xs">
+    <CssBaseline />
+
+    <div className={classes.paper}>
+      <Avatar className={classes.avatar}>
+      </Avatar>
+      
+      <Typography component="h1" variant="h5">
+      {isRegister ? "Sign up" : "Login"}
+      </Typography>
+      <form onSubmit={handleSubmit} className={classes.form} noValidate>
+
+        <Grid container spacing={2}>
+        {isRegister && ( 
+          <Grid className="formDiv" container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              name="first_name"
+              value={first_name}
+              onChange={handleChange}
+              variant="outlined"
+              required
+              fullWidth
+              id="firstName"
+              label="First Name"
+            />
+          </Grid>
+          <Grid item xs={12} >
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="lastName"
+              label="Last Name"
+              name="last_name"
+              value={last_name}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              value={email}
+              onChange={handleChange}
+            />
+          </Grid>
+          </Grid>
         )}
-        <button onClick={handleSubmit}>
-          {isRegister ? "Register" : "Login"}
-        </button>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              value={username}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name="password"
+              value={password}
+              onChange={handleChange}
+              label="Password"
+              type="password"
+              id="password"
+            />
+          </Grid>
+
+        </Grid>
+        <Button
+      
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+           {isRegister ? "Sign Up" :"Login"}
+        </Button>
+        <Grid container justifyContent="flex-end">
+          <Grid item >
+            
+            <Link href="/login" variant="body2">
+            {isRegister ?  "Already have an account? Sign in" :""}
+            </Link>
+          </Grid>
+        </Grid>
       </form>
-      <button onClick={() => setShowPassword(!showPassword)}>
-        show password
-      </button>
     </div>
+
+  </Container>
+  </section>
+    
+
   );
 }
 
