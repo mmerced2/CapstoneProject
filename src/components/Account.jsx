@@ -10,7 +10,7 @@ import {
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import Avatar from "@mui/material/Avatar";
+import { Avatar } from '@mui/material';
 import MyReviews from "./MyReviews";
 
 export default function Account({ token }) {
