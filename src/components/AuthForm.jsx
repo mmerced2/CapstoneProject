@@ -4,14 +4,14 @@ import { useRegisterMutation,useLoginMutation} from "../redux/api";
 import React from 'react';
 import { Avatar } from '@mui/material';
 import { Button } from '@mui/material';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
+import { CssBaseline } from '@mui/material';
+import { TextField } from '@material-ui/core';
 
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
+import { Link } from '@mui/material';
+import { Grid } from "@mui/material";
 import { Typography } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { Container } from '@mui/material';
 
 
 const useStyles = makeStyles((theme) => ({

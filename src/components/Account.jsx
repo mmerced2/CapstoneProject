@@ -7,11 +7,11 @@ import {
   CardMedia,
   Grid,
 } from "@mui/material";
-import { Button } from '@mui/material';
+//import { Button } from '@mui/material';
 import { Typography } from '@mui/material';
 import React from "react";
 import { Avatar } from '@mui/material';
-import MyReviews from "./MyReviews";
+//import MyReviews from "./MyReviews";
 
 export default function Account({ token }) {
   const { data, error, isLoading } = useGetUserQuery(token);
