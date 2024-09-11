@@ -46,7 +46,7 @@ const ReviewForm = ({ token, review, product }) => {
       if (review) {
         response = await editReview({ id: review.id , body: form, product_id: review.product_id, token });
       } else {
-        response = await createReviews({ id, body: form, product_id: review.product_id,  token });
+        response = await createReviews({ id, body: form, product_id: id,  token });
       }
   
       // Check for errors
@@ -55,8 +55,8 @@ const ReviewForm = ({ token, review, product }) => {
         console.log("API Error:", response.error); 
       } else {
         setError(null); 
-        updateForm({ ...form, rating: parseInt(form.rating, 5)}, review.product_id); 
-
+        updateForm({ ...form, rating: parseInt(form.rating, 5)}); 
+        
         console.log("Navigating to:", `/products/${review.product_id}`); 
         await refetch();
        navigate(`/products/${review.product_id}`);
