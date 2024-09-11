@@ -50,7 +50,7 @@ function ProductDetail() {
               <Typography variant="h8">{data.product.description}</Typography>
             </CardContent>
             <CardActions>
-              <Button onClick={() => navigate("/products/")}> Back </Button>
+              <Button onClick={() => navigate("/products/")}> Back to Products </Button>
               <Button onClick={() => navigate(`/products/${data.product.id}/reviewform`)}>
                 {" "}
                 Leave A Review{" "}

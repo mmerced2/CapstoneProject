@@ -16,7 +16,7 @@ function ProductList({ token }) {
             {isLoading && <p>Loading...</p>}
             {error && <p>Oops! Something went wrong!</p>}
             {products && products.map((product) => (
-                <div className="product_card" key={product.product_id}>
+                <div className="product_card" key={product.id}>
                     <img src={product.img_url} alt={product.name} />
                     <button onClick={() => navigate("/products/" +  product.id)}>
                         <h2>Name: {product.name}</h2>

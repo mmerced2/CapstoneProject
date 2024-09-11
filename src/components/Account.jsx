@@ -38,13 +38,13 @@ export default function Account({ token }) {
             <Grid
               display="flex"
               justifyContent="center"
-              alignItems="center"
+              align-items="center"
               size="grow"
             >
               <Avatar
                 src="/broken-image.jpg"
                 sx={{ width: 56, height: 56 }}
-                alignItems="center"
+                align-items="center"
               />
             </Grid>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useCreateReviewsMutation, useEditReviewMutation ,useGetReviewsbyUserIdQuery} from '../redux/api';
+import { useCreateReviewsMutation, useEditReviewMutation, useGetReviewsbyUserIdQuery } from '../redux/api';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const ReviewForm = ({ token, review, product }) => {
@@ -11,10 +11,9 @@ const ReviewForm = ({ token, review, product }) => {
   const { id } = useParams();
   const [createReviews] = useCreateReviewsMutation();
   const [editReview] = useEditReviewMutation();
-  const {refetch} = useGetReviewsbyUserIdQuery({ token }, { refetchOnMountOrArgChange: true }); // Refetch data
+  const { refetch } = useGetReviewsbyUserIdQuery({ token }, { refetchOnMountOrArgChange: true });
   const navigate = useNavigate();
 
-  // Update form state when review prop changes
   useEffect(() => {
     if (review) {
       updateForm({
@@ -24,19 +23,17 @@ const ReviewForm = ({ token, review, product }) => {
     }
   }, [review]);
 
-  console.log(review);
-
   const handleChange = ({ target }) => {
     setError(null);
-    updateForm({ ...form, [target.name]: target.value });
+    const { name, value } = target;
+    updateForm(prevForm => ({ ...prevForm, [name]: name === 'rating' ? parseInt(value, 10) : value }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
   
-    // Validate form fields
-    if (form.rating === "" || form.text === "") {
-      setError("Please fill out the review form");
+    if (form.rating < 1 || form.rating > 5 || form.text.trim() === "") {
+      setError("Please fill out the review form correctly.");
       return;
     }
   
@@ -44,33 +41,30 @@ const ReviewForm = ({ token, review, product }) => {
       let response;
   
       if (review) {
-        response = await editReview({ id: review.id , body: form, product_id: review.product_id, token });
+        response = await editReview({ id: review.id, body: form, product_id: review.product_id, token });
       } else {
-        response = await createReviews({ id, body: form, product_id: id,  token });
+        response = await createReviews({ id, body: form, product_id: id, token });
       }
   
-      // Check for errors
       if (response.error) {
-        setError("Something went wrong, please try again");
-        console.log("API Error:", response.error); 
+        setError("Something went wrong, please try again.");
+        console.log("API Error:", response.error);
       } else {
         setError(null); 
-        updateForm({ ...form, rating: parseInt(form.rating, 5)}); 
-        
-        console.log("Navigating to:", `/products/${review.product_id}`); 
+        console.log("Navigating to:", `/products/${review ? review.product_id : id}`); 
         await refetch();
-       navigate(`/products/${review.product_id}`);
+        navigate(`/products/${review ? review.product_id : id}`);
       }
     } catch (error) {
       setError("An unexpected error occurred. Please try again.");
-      console.error("Unexpected error:", error); 
+      console.error("Unexpected error:", error);
     }
   };
 
   return (
     <section className="padding">
       <h2>Review Form</h2>
-      <h2>{review? "Edit review" : "Create new Review"}</h2>
+      <h2>{review ? "Edit review" : "Create new Review"}</h2>
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="formDiv">
@@ -96,10 +90,10 @@ const ReviewForm = ({ token, review, product }) => {
             />
           </label>
           <div>
-            <button type="submit">{review? "Update" : "Submit"}</button>
+            <button type="submit">{review ? "Update" : "Submit"}</button>
           </div>
           <div>
-            <button onClick={() => navigate("/products/")}> Back To Products</button>
+            <button type="button" onClick={() => navigate("/products/")}>Back To Products</button>
           </div>
         </div>
       </form>
