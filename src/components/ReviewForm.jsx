@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useCreateReviewsMutation, useEditReviewMutation } from '../redux/api';
+import { useCreateReviewsMutation, useEditReviewMutation ,useGetReviewsbyUserIdQuery} from '../redux/api';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const ReviewForm = ({ token, review, product }) => {
@@ -11,6 +11,7 @@ const ReviewForm = ({ token, review, product }) => {
   const { id } = useParams();
   const [createReviews] = useCreateReviewsMutation();
   const [editReview] = useEditReviewMutation();
+  const {refetch} = useGetReviewsbyUserIdQuery({ token }, { refetchOnMountOrArgChange: true }); // Refetch data
   const navigate = useNavigate();
 
   // Update form state when review prop changes
@@ -40,29 +41,29 @@ const ReviewForm = ({ token, review, product }) => {
     }
   
     try {
-      // Make the API call
       let response;
   
       if (review) {
-        response = await editReview({ id: review.product_id, body: form, token });
+        response = await editReview({ id: review.id , body: form, product_id: review.product_id, token });
       } else {
-        response = await createReviews({ id, body: form, token });
+        response = await createReviews({ id, body: form, product_id: review.product_id,  token });
       }
   
       // Check for errors
       if (response.error) {
         setError("Something went wrong, please try again");
-        console.log("API Error:", response.error); // Debugging
+        console.log("API Error:", response.error); 
       } else {
-        // Success case
-        setError(null); // Clear any previous errors
-        updateForm({ ...form, rating: parseInt(form.rating, 10) }); // Optional: Update form if needed
-        console.log("Navigating to:", `/products/${id}`); // Debugging
-        navigate(`/products/${id}`);
+        setError(null); 
+        updateForm({ ...form, rating: parseInt(form.rating, 5)}, review.product_id); 
+
+        console.log("Navigating to:", `/products/${review.product_id}`); 
+        await refetch();
+       navigate(`/products/${review.product_id}`);
       }
     } catch (error) {
       setError("An unexpected error occurred. Please try again.");
-      console.error("Unexpected error:", error); // Debugging
+      console.error("Unexpected error:", error); 
     }
   };
 
@@ -96,6 +97,9 @@ const ReviewForm = ({ token, review, product }) => {
           </label>
           <div>
             <button type="submit">{review? "Update" : "Submit"}</button>
+          </div>
+          <div>
+            <button onClick={() => navigate("/products/")}> Back To Products</button>
           </div>
         </div>
       </form>

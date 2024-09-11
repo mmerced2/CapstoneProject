@@ -1,10 +1,7 @@
 import { useGetUserQuery, useGetReviewsbyUserIdQuery } from "../redux/api";
 import {
-  Box,
   Card,
-  CardActions,
   CardContent,
-  CardMedia,
   Grid,
 } from "@mui/material";
 //import { Button } from '@mui/material';

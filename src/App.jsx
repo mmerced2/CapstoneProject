@@ -8,8 +8,7 @@ import ProductDetail from "./components/ProductDetail";
 import Account from "./components/Account";
 import ReviewForm from "./components/ReviewForm";
 import MyReviews from "./components/MyReviews"
-//import AuthForm from "./components/auth";
- 
+import Reviews from "./components/Reviews";
 import "./App.css";
 
 
@@ -29,7 +28,8 @@ function App() {
         <Route path="/products/:id" element={<ProductDetail token={token}/>}  />
         <Route path="/account" element={<Account token={token}/>}  />
         <Route path="/products/:id/reviewform" element={<ReviewForm token={token}/>}  />
-        <Route path="/myreviews" element={<MyReviews token={token}/>}  /> 
+        <Route path="/myreviews" element={<MyReviews token={token}/>}  />  
+        <Route path="/reviews" element={<Reviews/>} token={token}  /> 
       </Routes>
     </div>
   );

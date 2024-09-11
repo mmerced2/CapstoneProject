@@ -1,28 +1,22 @@
 import React, { useState } from "react";
 import {
   useGetReviewsbyUserIdQuery,
-  useEditReviewMutation,
-  useDeleteReviewMutation,
+  useDeleteReviewMutation
 } from "../redux/api";
 import { useParams } from "react-router-dom";
 import {
-  Box,
   Card,
   CardActions,
   CardContent,
   CardMedia,
-  Grid,
 } from "@mui/material";
-import { Button } from '@mui/material';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import ReviewForm from "./ReviewForm";
 import { useNavigate } from "react-router-dom";
 
-
 export default function MyReviews({ id, token }) {
-
-  let review = {};
   const [isEditing, setIsEditing] = useState(false);
+  const [editReviewId, setEditReviewId] = useState(null);
   const [deleteReview] = useDeleteReviewMutation();
   const navigate = useNavigate();
 
@@ -33,36 +27,29 @@ export default function MyReviews({ id, token }) {
       console.log(error);
     }
   };
-  
-const { data, error, isLoading } = useGetReviewsbyUserIdQuery({ token });
-const reviews = data?.review;
-console.log(reviews);
 
-if (reviews) {
-  review = reviews[0];
-  console.log(review)
+  const { data, error, isLoading } = useGetReviewsbyUserIdQuery({ token });
+  const reviews = data?.review;
 
-}
-if (isEditing) {
-  return (
-  <ReviewForm review={review} token={token} setIsEditing={setIsEditing}/>
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
-);}
+  if (error) {
+    return <p>Oops! Something went wrong!</p>;
+  }
 
-if (isLoading) {
-  return <p>Loading...</p>
-}
-  
-
-
-
-
+  if (isEditing) {
+    const reviewToEdit = reviews.find(review => review.id === editReviewId);
+    return (
+      <ReviewForm review={reviewToEdit} token={token} setIsEditing={setIsEditing} />
+    );
+  }
 
   return (
     <>
-
-      {isLoading ? <p>Loading...</p> : <span />}
-      {error ? <p>Oops! Something went wrong!</p> : <span />}
+    <Typography variant="h4">My Reviews</Typography>
+    
       {reviews &&
         reviews.map((review) => (
           <div className="review_card" key={review.id}>
@@ -89,8 +76,10 @@ if (isLoading) {
                 <Button onClick={() => handleDelete(review.id)}>
                   Delete Review{" "}
                 </Button>
-                {/* <Button onClick={() => navigate(`/products/${review.product_id}/reviewform`)}>Edit Review </Button>   */}
-                <Button onClick={() => setIsEditing(true) }>
+                <Button onClick={() => { 
+                  setEditReviewId(review.id);
+                  setIsEditing(true);
+                }}>
                   Edit Review{" "}
                 </Button> 
               </CardActions>

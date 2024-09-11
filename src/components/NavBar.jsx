@@ -29,7 +29,7 @@ export default function NavBar({ token, setToken }) {
             <Button color="inherit" component={Link} to="/">Home</Button>
             <Button color="inherit" component={Link} to="/products">Products</Button>
             <Button color="inherit" component={Link} to="/account">Account</Button>
-            <Button color="inherit" component={Link} to="/myreviews">Reviews</Button>
+            <Button color="inherit" component={Link} to="/myreviews">My Reviews</Button>
             <Button color="inherit" onClick={logoutUser}>Logout</Button>
             </Grid>
           </Toolbar>
