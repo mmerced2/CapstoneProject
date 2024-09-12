@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import {
   useGetReviewsbyUserIdQuery,
-  useDeleteReviewMutation
+  useDeleteReviewMutation,
 } from "../redux/api";
 import { useParams } from "react-router-dom";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-} from "@mui/material";
-import { Button, Typography } from '@mui/material';
+import { Card, CardActions, CardContent, CardMedia,Button, Typography, Rating, } from "@mui/material";
 import ReviewForm from "./ReviewForm";
 import { useNavigate } from "react-router-dom";
 
@@ -30,6 +24,7 @@ export default function MyReviews({ id, token }) {
 
   const { data, error, isLoading } = useGetReviewsbyUserIdQuery({ token });
   const reviews = data?.review;
+  console.log(reviews)
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -40,16 +35,20 @@ export default function MyReviews({ id, token }) {
   }
 
   if (isEditing) {
-    const reviewToEdit = reviews.find(review => review.id === editReviewId);
+    const reviewToEdit = reviews.find((review) => review.id === editReviewId);
     return (
-      <ReviewForm review={reviewToEdit} token={token} setIsEditing={setIsEditing} />
+      <ReviewForm
+        review={reviewToEdit}
+        token={token}
+        setIsEditing={setIsEditing}
+      />
     );
   }
 
   return (
     <>
-    <Typography variant="h4">My Reviews</Typography>
-    
+      <Typography variant="h4">My Reviews</Typography>
+
       {reviews &&
         reviews.map((review) => (
           <div className="review_card" key={review.id}>
@@ -63,25 +62,30 @@ export default function MyReviews({ id, token }) {
 
               <CardContent>
                 <Typography variant="h6">
-                  Product: {review.products.name}
+                   {review.products.name}
                 </Typography>
-             
                 <Typography variant="h6">
-                  Review: {review.text}
+                  {review.products.artist}
                 </Typography>
-                <Typography variant="h6">Rating: {review.rating}</Typography>
+                <Typography variant="h6">
+                <Rating value={review.rating} readOnly precision={0.5} />
+                </Typography>
+                <Typography variant="h6">Review: {review.text}</Typography>
+
               </CardContent>
               <CardActions>
                 <Button onClick={() => navigate("/products/")}> Back </Button>
                 <Button onClick={() => handleDelete(review.id)}>
                   Delete Review{" "}
                 </Button>
-                <Button onClick={() => { 
-                  setEditReviewId(review.id);
-                  setIsEditing(true);
-                }}>
+                <Button
+                  onClick={() => {
+                    setEditReviewId(review.id);
+                    setIsEditing(true);
+                  }}
+                >
                   Edit Review{" "}
-                </Button> 
+                </Button>
               </CardActions>
             </Card>
           </div>

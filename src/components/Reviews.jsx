@@ -1,7 +1,12 @@
 import React from "react";
 import { useGetReviewsQuery } from "../redux/api";
 import { useNavigate } from "react-router-dom";
-import { Card, CardActions, CardContent, Typography, Button } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Rating,  // Import the Rating component
+} from "@mui/material";
 
 export default function Reviews({ token }) {
   const navigate = useNavigate();
@@ -23,10 +28,12 @@ export default function Reviews({ token }) {
   }, {});
 
   // Calculate average ratings
-  const averageRatings = Object.entries(productRatings || {}).map(([product_id, { totalRating, count }]) => ({
-    product_id,
-    averageRating: totalRating / count,
-  }));
+  const averageRatings = Object.entries(productRatings || {}).map(
+    ([product_id, { totalRating, count }]) => ({
+      product_id,
+      averageRating: totalRating / count,
+    })
+  );
 
   return (
     <>
@@ -41,10 +48,9 @@ export default function Reviews({ token }) {
                   Product ID: {product.product_id}
                 </Typography>
                 <Typography variant="body2">
-                  Average Rating: {product.averageRating.toFixed(1)}
+                  Average Rating: <Rating value={product.averageRating} readOnly precision={0.5} />
                 </Typography>
               </CardContent>
-
             </Card>
           </div>
         ))}

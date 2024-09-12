@@ -1,13 +1,9 @@
 import { useGetUserQuery, useGetReviewsbyUserIdQuery } from "../redux/api";
-import {
-  Card,
-  CardContent,
-  Grid,
-} from "@mui/material";
+import { Card, CardContent, Grid } from "@mui/material";
 //import { Button } from '@mui/material';
-import { Typography } from '@mui/material';
+import { Typography } from "@mui/material";
 import React from "react";
-import { Avatar } from '@mui/material';
+import { Avatar } from "@mui/material";
 //import MyReviews from "./MyReviews";
 
 export default function Account({ token }) {
@@ -23,7 +19,6 @@ export default function Account({ token }) {
 
   if (data?.user) {
     const { username, email, first_name, last_name } = data.user;
-
 
     return (
       <section className="padding account">
@@ -56,18 +51,10 @@ export default function Account({ token }) {
               <Typography variant="h6">Email: {email}</Typography>
             </CardContent>
           </Card>
-   
         </Grid>
 
-        <section>
-   
-
-
+        <section></section>
       </section>
-
-      </section>
-
-
     );
   }
 

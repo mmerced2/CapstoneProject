@@ -10,18 +10,15 @@ import {
   CardMedia,
   Grid,
 } from "@mui/material";
-import { Button } from '@mui/material';
-import { Typography } from '@mui/material';
+import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
 import React from "react";
-
-
 
 function ProductDetail() {
   const params = useParams();
   const id = params.id;
   const navigate = useNavigate();
   const { data, isLoading, error } = useGetProductsbyIdQuery(id);
-  
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -45,13 +42,21 @@ function ProductDetail() {
             />
 
             <CardContent>
-              <Typography variant="h6">{data.product.name}</Typography>
-              <Typography variant="h6">{data.product.product_type}</Typography>
-              <Typography variant="h8">{data.product.description}</Typography>
+              <Typography variant="h6">Name: {data.product.name}</Typography>
+              <Typography variant="h8">Artist: {data.product.artist}</Typography>
+              <Typography variant="h6">Type: {data.product.product_type}</Typography>
+              <Typography variant="h8">Description: {data.product.description}</Typography>
             </CardContent>
             <CardActions>
-              <Button onClick={() => navigate("/products/")}> Back to Products </Button>
-              <Button onClick={() => navigate(`/products/${data.product.id}/reviewform`)}>
+              <Button onClick={() => navigate("/products/")}>
+                {" "}
+                Back to Products{" "}
+              </Button>
+              <Button
+                onClick={() =>
+                  navigate(`/products/${data.product.id}/reviewform`)
+                }
+              >
                 {" "}
                 Leave A Review{" "}
               </Button>
@@ -60,7 +65,6 @@ function ProductDetail() {
         </Grid>
       </Grid>
     </Box>
-
   );
 }
 
