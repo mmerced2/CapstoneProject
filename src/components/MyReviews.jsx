@@ -54,7 +54,7 @@ export default function MyReviews({ id, token }) {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" color="black" gutterBottom>
         My Reviews
       </Typography>
 
