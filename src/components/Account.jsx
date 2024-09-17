@@ -1,66 +1,76 @@
-import { useGetUserQuery, useGetReviewsbyUserIdQuery } from "../redux/api";
-import { Card, CardContent, Grid } from "@mui/material";
-//import { Button } from '@mui/material';
-import { Typography } from "@mui/material";
 import React from "react";
-import { Avatar } from "@mui/material";
-//import MyReviews from "./MyReviews";
+import { Card, CardContent, Grid, Typography, Avatar } from "@mui/material";
+import { useGetUserQuery } from "../redux/api";
 
 export default function Account({ token }) {
   const { data, error, isLoading } = useGetUserQuery(token);
 
   if (isLoading) {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Typography variant="h6" align="center">
+        Loading...
+      </Typography>
+    );
   }
 
   if (error) {
-    return <Typography>Error: {error.message}</Typography>;
+    return (
+      <Typography variant="h6" color="error" align="center">
+        Error: {error.message}
+      </Typography>
+    );
   }
 
   if (data?.user) {
     const { username, email, first_name, last_name } = data.user;
 
     return (
-      <section className="padding account">
-        <Typography variant="h5">Account Information</Typography>
+      <section style={{ padding: "2rem" }}>
+        <Typography variant="h5" align="center" gutterBottom>
+          Account Information
+        </Typography>
         <Grid
-          display="flex"
+          container
+          direction="column"
+          alignItems="center"
           justifyContent="center"
-          align-items="center"
-          size="grow"
+          spacing={2}
         >
-          <Card sx={{ maxWidth: 300 }}>
-            <Grid
-              display="flex"
-              justifyContent="center"
-              align-items="center"
-              size="grow"
-            >
-              <Avatar
-                src="/broken-image.jpg"
-                sx={{ width: 56, height: 56 }}
-                align-items="center"
-              />
-            </Grid>
-
-            <CardContent>
-              <Typography variant="h6">
-                Name: {`${first_name}`} {` ${last_name}`}
-              </Typography>
-              <Typography variant="h6">Username: {username}</Typography>
-              <Typography variant="h6">Email: {email}</Typography>
-            </CardContent>
-          </Card>
+          <Grid item>
+            <Card sx={{ maxWidth: 400 }}>
+              <CardContent>
+                <Grid
+                  container
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="center"
+                  spacing={2}
+                >
+                  <Grid item>
+                    <Avatar
+                      src="/broken-image.jpg"
+                      sx={{ width: 80, height: 80 }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="h6">
+                      Name: {`${first_name} ${last_name}`}
+                    </Typography>
+                    <Typography variant="h6">Username: {username}</Typography>
+                    <Typography variant="h6">Email: {email}</Typography>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-
-        <section></section>
       </section>
     );
   }
 
   return (
-    <section>
-      <h3>Not found!</h3>
+    <section style={{ padding: "2rem", textAlign: "center" }}>
+      <Typography variant="h6">Not found!</Typography>
     </section>
   );
 }

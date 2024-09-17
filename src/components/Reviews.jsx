@@ -1,15 +1,6 @@
-import React from "react";
 import { useGetReviewsQuery } from "../redux/api";
-import { useNavigate } from "react-router-dom";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Rating,  // Import the Rating component
-} from "@mui/material";
 
-export default function Reviews({ token }) {
-  const navigate = useNavigate();
+function Reviews(token) {
   const { data, error, isLoading } = useGetReviewsQuery({ token });
   const reviews = data?.reviews;
 
@@ -35,25 +26,7 @@ export default function Reviews({ token }) {
     })
   );
 
-  return (
-    <>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error loading reviews</p>}
-      {averageRatings &&
-        averageRatings.map((product) => (
-          <div className="review_card" key={product.product_id}>
-            <Card sx={{ maxWidth: 370 }}>
-              <CardContent>
-                <Typography variant="h6">
-                  Product ID: {product.product_id}
-                </Typography>
-                <Typography variant="body2">
-                  Average Rating: <Rating value={product.averageRating} readOnly precision={0.5} />
-                </Typography>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
-    </>
-  );
+  return { averageRatings, isLoading, error };
 }
+
+export default Reviews;

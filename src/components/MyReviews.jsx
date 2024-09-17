@@ -3,8 +3,16 @@ import {
   useGetReviewsbyUserIdQuery,
   useDeleteReviewMutation,
 } from "../redux/api";
-import { useParams } from "react-router-dom";
-import { Card, CardActions, CardContent, CardMedia,Button, Typography, Rating, } from "@mui/material";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+  Rating,
+  Grid,
+} from "@mui/material";
 import ReviewForm from "./ReviewForm";
 import { useNavigate } from "react-router-dom";
 
@@ -24,7 +32,6 @@ export default function MyReviews({ id, token }) {
 
   const { data, error, isLoading } = useGetReviewsbyUserIdQuery({ token });
   const reviews = data?.review;
-  console.log(reviews)
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -46,50 +53,47 @@ export default function MyReviews({ id, token }) {
   }
 
   return (
-    <>
-      <Typography variant="h4">My Reviews</Typography>
+    <div>
+      <Typography variant="h4" gutterBottom>
+        My Reviews
+      </Typography>
 
-      {reviews &&
-        reviews.map((review) => (
-          <div className="review_card" key={review.id}>
-            <Card sx={{ maxWidth: 370 }}>
-              <CardMedia
-                component="img"
-                alt={review.products.img_url}
-                height="500"
-                image={review.products.img_url}
-              />
+      <Grid container spacing={3}>
+        {reviews &&
+          reviews.map((review) => (
+            <Grid item xs={12} sm={6} md={4} key={review.id}>
+              <Card sx={{ maxWidth: 370 }}>
+                <CardMedia
+                  component="img"
+                  alt={review.products.name}
+                  height="350"
+                  image={review.products.img_url}
+                />
 
-              <CardContent>
-                <Typography variant="h6">
-                   {review.products.name}
-                </Typography>
-                <Typography variant="h6">
-                  {review.products.artist}
-                </Typography>
-                <Typography variant="h6">
-                <Rating value={review.rating} readOnly precision={0.5} />
-                </Typography>
-                <Typography variant="h6">Review: {review.text}</Typography>
-
-              </CardContent>
-              <CardActions>
-                <Button onClick={() => navigate("/products/")}> Back </Button>
-                <Button onClick={() => handleDelete(review.id)}>
-                  Delete Review{" "}
-                </Button>
-                <Button
-                  onClick={() => {
-                    setEditReviewId(review.id);
-                    setIsEditing(true);
-                  }}
-                >
-                  Edit Review{" "}
-                </Button>
-              </CardActions>
-            </Card>
-          </div>
-        ))}
-    </>
+                <CardContent>
+                  <Typography variant="h6">{review.products.name}</Typography>
+                  <Typography variant="subtitle1">{review.products.artist}</Typography>
+                  <Typography variant="subtitle1">
+                    <Rating value={review.rating} readOnly precision={0.5} />
+                  </Typography>
+                  <Typography variant="body2">Review: {review.text}</Typography>
+                </CardContent>
+                <CardActions>
+                  <Button onClick={() => navigate("/products/")}>Back</Button>
+                  <Button onClick={() => handleDelete(review.id)}>Delete Review</Button>
+                  <Button
+                    onClick={() => {
+                      setEditReviewId(review.id);
+                      setIsEditing(true);
+                    }}
+                  >
+                    Edit Review
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+      </Grid>
+    </div>
   );
 }

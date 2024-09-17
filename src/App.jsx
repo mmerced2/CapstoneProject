@@ -9,6 +9,7 @@ import Account from "./components/Account";
 import ReviewForm from "./components/ReviewForm";
 import MyReviews from "./components/MyReviews";
 import Reviews from "./components/Reviews";
+import ShopNow from "./components/Shop";
 import "./App.css";
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
         />
         <Route path="/myreviews" element={<MyReviews token={token} />} />
         <Route path="/reviews" element={<Reviews />} token={token} />
+        <Route path="/shop"  element={<ShopNow/>} />
+        
       </Routes>
     </div>
   );
